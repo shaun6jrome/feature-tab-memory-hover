@@ -1,0 +1,28 @@
+diff --git a/browser/themes/shared/tabbrowser/tab-hover-preview.css b/browser/themes/shared/tabbrowser/tab-hover-preview.css
+index 1111111..2222222 100644
+--- a/browser/themes/shared/tabbrowser/tab-hover-preview.css
++++ b/browser/themes/shared/tabbrowser/tab-hover-preview.css
+@@ -60,6 +60,20 @@
+   justify-content: space-between;
+ }
+ 
++.tab-preview-memory-container {
++  display: flex;
++  align-items: center;
++  gap: 6px;
++  margin-top: 4px;
++  font-size: 0.95em;
++  color: var(--text-color-deemphasized);
++}
++
++.tab-preview-memory-icon {
++  opacity: 0.8;
++}
++
++.tab-preview-memory-value {
++  font-weight: 500;
++}
++
+ .tab-preview-thumbnail-container {
+   width: 264px;
+   margin: 0 auto;
