@@ -2,14 +2,31 @@ diff --git a/browser/components/tabbrowser/content/tab-hover-preview.mjs b/brows
 index 1111111..2222222 100644
 --- a/browser/components/tabbrowser/content/tab-hover-preview.mjs
 +++ b/browser/components/tabbrowser/content/tab-hover-preview.mjs
-@@ -345,6 +345,10 @@ class TabPanel extends HoverPanel {
+@@ -345,6 +345,26 @@ class TabPanel extends HoverPanel {
      this.#addNoteButton.addEventListener("click", () =>
        this.#openTabNotePanel()
      );
 +
-+    // Locating Hover Card Component:
-+    // Added container for memory usage display.
-+    this.memoryContainer = null;
++    // Create placeholder memory usage label
++    const doc = this.win.document;
++    this.memoryContainer = doc.createElement("div");
++    this.memoryContainer.className = "tab-preview-memory-container";
++
++    const icon = doc.createElement("span");
++    icon.className = "tab-preview-memory-icon";
++    icon.textContent = "💾";
++
++    this.memoryValue = doc.createElement("span");
++    this.memoryValue.className = "tab-preview-memory-value";
++    this.memoryValue.textContent = "-- MB";
++
++    this.memoryContainer.appendChild(icon);
++    this.memoryContainer.appendChild(this.memoryValue);
++
++    const textContainer = this.panelElement.querySelector(".tab-preview-text-container");
++    if (textContainer) {
++      textContainer.appendChild(this.memoryContainer);
++    }
    }
  
    /**
