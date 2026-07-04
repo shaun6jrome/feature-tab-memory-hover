@@ -2,7 +2,7 @@ diff --git a/browser/components/tabbrowser/content/tab-hover-preview.mjs b/brows
 index 1111111..2222222 100644
 --- a/browser/components/tabbrowser/content/tab-hover-preview.mjs
 +++ b/browser/components/tabbrowser/content/tab-hover-preview.mjs
-@@ -345,6 +345,26 @@ class TabPanel extends HoverPanel {
+@@ -345,6 +345,29 @@ class TabPanel extends HoverPanel {
      this.#addNoteButton.addEventListener("click", () =>
        this.#openTabNotePanel()
      );
@@ -27,6 +27,42 @@ index 1111111..2222222 100644
 +    if (textContainer) {
 +      textContainer.appendChild(this.memoryContainer);
 +    }
++
++    this._procInfoCache = null;
++    this._procInfoCacheTime = 0;
    }
  
    /**
+@@ -597,6 +620,29 @@ class TabPanel extends HoverPanel {
+       this.#displayTitle;
+     this.panelElement.querySelector(".tab-preview-uri").textContent =
+       this.#displayURI;
++
++    // Connect memory data provider
++    let memoryBytes = 0;
++    let isShared = false;
++    const now = Date.now();
++    try {
++      const pids = this.win.gBrowser.getTabPids(this.#tab);
++      if (pids && pids.length) {
++        let procInfo = this._procInfoCache;
++        if (!procInfo || (now - this._procInfoCacheTime > 1500)) {
++          procInfo = await ChromeUtils.requestProcInfo();
++          this._procInfoCache = procInfo;
++          this._procInfoCacheTime = now;
++        }
++        for (const child of procInfo.children) {
++          if (pids.includes(child.pid)) {
++            memoryBytes += child.residentSetSize;
++            if (child.windows && child.windows.length > 1) {
++              isShared = true;
++            }
++          }
++        }
++      }
++    } catch (e) {
++      console.error(e);
++    }
+ 
+     if (this.win.gBrowser.showPidAndActiveness) {
+       this.panelElement.querySelector(".tab-preview-pid").textContent =
