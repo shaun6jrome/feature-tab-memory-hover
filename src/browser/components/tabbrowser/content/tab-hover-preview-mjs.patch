@@ -1,0 +1,15 @@
+diff --git a/browser/components/tabbrowser/content/tab-hover-preview.mjs b/browser/components/tabbrowser/content/tab-hover-preview.mjs
+index 1111111..2222222 100644
+--- a/browser/components/tabbrowser/content/tab-hover-preview.mjs
++++ b/browser/components/tabbrowser/content/tab-hover-preview.mjs
+@@ -345,6 +345,10 @@ class TabPanel extends HoverPanel {
+     this.#addNoteButton.addEventListener("click", () =>
+       this.#openTabNotePanel()
+     );
++
++    // Locating Hover Card Component:
++    // Added container for memory usage display.
++    this.memoryContainer = null;
+   }
+ 
+   /**
