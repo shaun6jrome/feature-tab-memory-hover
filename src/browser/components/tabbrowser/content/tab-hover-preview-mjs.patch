@@ -33,7 +33,7 @@ index 1111111..2222222 100644
    }
  
    /**
-@@ -597,6 +620,44 @@ class TabPanel extends HoverPanel {
+@@ -597,6 +620,47 @@ class TabPanel extends HoverPanel {
        this.#displayTitle;
      this.panelElement.querySelector(".tab-preview-uri").textContent =
        this.#displayURI;
@@ -64,8 +64,11 @@ index 1111111..2222222 100644
 +      console.error(e);
 +    }
 +
-+    // Render formatted memory value
-+    if (memoryBytes > 0) {
++    // Render formatted memory value or handle unavailable/sleeping states
++    if (this.#tab.getAttribute("pending")) {
++      this.memoryValue.textContent = "Sleeping";
++      this.memoryContainer.removeAttribute("hidden");
++    } else if (memoryBytes > 0) {
 +      let formattedMemory = "";
 +      if (memoryBytes < 1024 * 1024 * 1024) {
 +        formattedMemory = `${Math.round(memoryBytes / (1024 * 1024))} MB`;
