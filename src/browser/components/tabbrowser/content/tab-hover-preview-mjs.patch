@@ -33,7 +33,7 @@ index 1111111..2222222 100644
    }
  
    /**
-@@ -597,6 +620,29 @@ class TabPanel extends HoverPanel {
+@@ -597,6 +620,44 @@ class TabPanel extends HoverPanel {
        this.#displayTitle;
      this.panelElement.querySelector(".tab-preview-uri").textContent =
        this.#displayURI;
@@ -62,6 +62,23 @@ index 1111111..2222222 100644
 +      }
 +    } catch (e) {
 +      console.error(e);
++    }
++
++    // Render formatted memory value
++    if (memoryBytes > 0) {
++      let formattedMemory = "";
++      if (memoryBytes < 1024 * 1024 * 1024) {
++        formattedMemory = `${Math.round(memoryBytes / (1024 * 1024))} MB`;
++      } else {
++        formattedMemory = `${(memoryBytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
++      }
++      if (isShared) {
++        formattedMemory += " (shared)";
++      }
++      this.memoryValue.textContent = formattedMemory;
++      this.memoryContainer.removeAttribute("hidden");
++    } else {
++      this.memoryContainer.setAttribute("hidden", "true");
 +    }
  
      if (this.win.gBrowser.showPidAndActiveness) {
